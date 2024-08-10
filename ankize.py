@@ -4,6 +4,7 @@ import requests
 import html
 import genanki
 import shutil
+import ids
 
 def generate_anki(section_name, section_id):
   MODEL_YES_NO_ID = 1789531432
@@ -68,10 +69,10 @@ def generate_anki(section_name, section_id):
       for elem in d:
           image = ''
           if elem['Image'] != '':
-            externalSource = elem['Image'][-9:] + '.jpg'
+            externalSource = ids.get_element_id(elem['Image']) + '.jpg'
             image = '<img src="{}">'.format(externalSource)
           if elem['Video'] != '':
-            externalSource = elem['Video'][-9:] + '.webm'
+            externalSource = ids.get_element_id(elem['Video']) + '.webm'
             image = '<video controls><source src="{}" type="video/webm"></video>'.format(externalSource)
 
           if len(elem['Answers']) > 2:
@@ -99,7 +100,7 @@ def generate_anki(section_name, section_id):
             )
 
           if elem['Image'] != '':
-            my_package.media_files.append(os.path.join(BUILD, str(section_id), elem['Image'][-9:]+'.jpg'))
+            my_package.media_files.append(os.path.join(BUILD, str(section_id), ids.get_element_id(elem['Image']) +'.jpg'))
           #if elem['Video'] != '':
             # Doesn't work
             #my_package.media_files.append(os.path.join(BUILD, '11', elem['Video'][-9:]+'.webm'))

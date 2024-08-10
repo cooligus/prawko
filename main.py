@@ -1,5 +1,6 @@
 import sections
 import questions
+import asyncio
 import images
 import json
 import ankize
@@ -26,7 +27,7 @@ with open('tmp/sections.json') as f:
     sections = json.load(f)
     for key, section in enumerate(sections):
         questions.download_questions(driver, key, section['href'])
-        images.download_images(key)
+        asyncio.run(images.download_images(key))
 
 with open('tmp/sections.json') as f:
     sections = json.load(f)
